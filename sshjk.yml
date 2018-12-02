@@ -1,0 +1,6 @@
+---
+- hosts: all
+  sudo: true  
+  tasks:
+    - name: Create remote dir
+      command: mkdir jk

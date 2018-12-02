@@ -1,0 +1,26 @@
+---
+- hosts: all
+
+  tasks: 
+  - name: Print the ansible_os_family
+    debug:
+      msg:  '{{ ansible_os_family }}'
+  - name: Ensure the http pkg is updated
+    yum: 
+      name: httpd
+      state: latest
+    become: True
+    when: ansible_os_family == 'RedHat'
+  - name: Ensure apache2 pkg is updated
+    apt: 
+      name: apache2
+      state: latest
+    become: true
+    when: ansible_os_family == 'Debian'
+  - name: start service
+    service: name=httpd state=started
+    become: yes
+    register: output_variable
+  - debug:
+     msg: '{{ output_variable.state }}'
+ 
